@@ -1,3 +1,5 @@
+#include <signal.h>
+
 #include <iostream>
 #include <string>
 
@@ -10,6 +12,8 @@
 #include "Utils.hpp"
 
 int main(int argc, const char * argv[]) {
+    signal(SIGPIPE, SIG_IGN);
+
     errno = 0;
     ASSERT(argc == 3, "2 arguments expected: ip and port");
     std::cout << "Starting server..." << std::endl;

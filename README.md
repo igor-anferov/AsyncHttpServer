@@ -1,6 +1,6 @@
 # Сборка
 ```bash
-g++ -Iinclude -lmagic src/*.cpp -o HttpServer
+g++ --std=gnu++17 -Iinclude -lmagic src/*.cpp -o HttpServer
 ```
 
 #Запуск

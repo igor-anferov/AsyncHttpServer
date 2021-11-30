@@ -1,5 +1,6 @@
 #include "HttpClientAcceptor.hpp"
 
+#include <cstring>
 #include <strings.h>
 
 #include <iostream>

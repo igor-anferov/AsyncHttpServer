@@ -10,7 +10,7 @@
 
 int ListeningNetworkSocket::make_listening_socket(const char* ip, uint16_t port)
 {
-    struct sockaddr_in addr;
+    struct sockaddr_in addr{ .sin_family = AF_INET };
     int rc = inet_aton(ip, &addr.sin_addr);
     ASSERT(rc == 1, "failed to parse IP address");
     addr.sin_port = htons(port);
@@ -47,13 +47,9 @@ void ListeningNetworkSocket::start_listening(ClientAcceptor& conn_acceptor)
         ASSERT(fd >= 0, "failed to 'accept()' client");
         fprintf(stderr, "new client connected: %s:%d\n", inet_ntoa(client_addr.sin_addr), ntohs(client_addr.sin_port));
 
-        int opt_value = 1;
-        int rc = setsockopt(fd, SOL_SOCKET, SO_NOSIGPIPE, &opt_value, sizeof(opt_value));
-        ASSERT(!rc, "failed to set SO_NOSIGPIPE option for client socket");
-
         int flags = fcntl(fd, F_GETFL);
         flags |= O_NONBLOCK;
-        rc = fcntl(fd, F_SETFL, flags);
+        int rc = fcntl(fd, F_SETFL, flags);
         ASSERT(rc != -1, "failed to set O_NONBLOCK flag on client socket");
 
         conn_acceptor.accept(new AsyncFileIOStream(e, new ReadWritableFileImpl(fd, e)));

@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cstdlib>
+
 #include "AsyncStream.hpp"
 #include "EventLoop.hpp"
 #include "File.hpp"
